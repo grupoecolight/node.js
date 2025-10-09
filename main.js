@@ -22,8 +22,8 @@ const serial = async (
             host: '127.0.0.1',
             user: 'aluno',
             password: 'sptech',
-            database: 'sprint2',
-            port: 3306
+            database: 'Ecolight',
+            port: 3307
         }
     ).promise();
 
@@ -51,8 +51,8 @@ const serial = async (
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
         console.log(data);
         const valores = data.split(';');
-        const sensorDigital = parseInt(valores[1]);
         const sensorAnalogico = parseFloat(valores[0]);
+        const sensorDigital = parseInt(valores[1]);
 
         // armazena os valores dos sensores nos arrays correspondentes
         valoresSensorAnalogico.push(sensorAnalogico);
@@ -63,13 +63,18 @@ const serial = async (
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                `INSERT INTO luminosidade (lumi) VALUES (${sensorAnalogico})`,
-                
+                `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico}, 1)`,
             );
             console.log("valores inseridos no banco: ", sensorAnalogico);
-
+            await poolBancoDados.execute(
+                `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 10}, 2)`,
+            );
+            console.log("valores inseridos no banco: ", sensorAnalogico + 10);
+            await poolBancoDados.execute(
+                `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 20}, 3)`,
+            );
+            console.log("valores inseridos no banco: ", sensorAnalogico + 20);
         }
-
     });
 
     // evento para lidar com erros na comunicação serial

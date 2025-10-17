@@ -1,3 +1,100 @@
+// *************** SIMULADOR DE SENSOR *************
+
+// importa as bibliotecas necessárias
+const express = require('express');
+const mysql = require('mysql2');
+
+// constantes para configurações
+const SERVIDOR_PORTA = 3300;
+
+// habilita ou desabilita a inserção de dados no banco de dados
+const HABILITAR_OPERACAO_INSERIR = true;
+
+// função para gerar dados mockados no lugar da leitura serial
+const gerarDadosMockados = async (
+    valoresSensorAnalogico
+) => {
+    // conexão com o banco de dados MySQL (permite inserção simulada)
+    let poolBancoDados = mysql.createPool(
+        {
+            host: '127.0.0.1',
+            user: 'aluno',
+            password: 'Sptech#2024',
+            database: 'Ecolight',
+            port: 3307
+        }
+    ).promise();
+
+    console.log("Iniciando geração de dados mockados...");
+
+    // intervalo que gera novos valores a cada 2 segundos simulando leituras reais
+    setInterval(async () => {
+        // gera um valor aleatório entre 35% e 40% para simular o sensor LDR35
+        const sensorAnalogico = (Math.random() * 5 + 35).toFixed(2);
+
+        // gera um valor digital aleatório (0 ou 1)
+
+        // armazena os valores simulados nos arrays originais
+        valoresSensorAnalogico.push(parseFloat(sensorAnalogico));
+
+        console.log(`Leitura gerada → Analógico: ${sensorAnalogico}lux`);
+
+        // caso o armazenamento no banco esteja habilitado, insere os valores mockados
+        if (HABILITAR_OPERACAO_INSERIR) {
+            await poolBancoDados.execute(
+                `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico}, 4)`,
+                
+            );
+            console.log("Valores inseridos no banco:", sensorAnalogico);
+        }
+
+    }, 300000); // intervalo de geração das leituras simuladas
+}
+
+// função para criar e configurar o servidor web
+const servidor = (
+    valoresSensorAnalogico
+) => {
+    const app = express();
+
+    // configurações de requisição e resposta
+    app.use((request, response, next) => {
+        response.header('Access-Control-Allow-Origin', '*');
+        response.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept');
+        next();
+    });
+
+    // inicia o servidor na porta especificada
+    app.listen(SERVIDOR_PORTA, () => {
+        console.log(`API executada com sucesso na porta ${SERVIDOR_PORTA}`);
+    });
+
+    // define os endpoints da API para cada tipo de sensor
+    app.get('/sensores/analogico', (_, response) => {
+        return response.json(valoresSensorAnalogico);
+    });
+}
+
+// função principal assíncrona para iniciar a simulação e o servidor web
+(async () => {
+    // arrays para armazenar os valores dos sensores
+    const valoresSensorAnalogico = [];
+
+    // inicia a geração dos dados simulados (substitui a leitura da porta serial)
+    await gerarDadosMockados(
+        valoresSensorAnalogico
+    );
+
+    // inicia o servidor web
+    servidor(
+        valoresSensorAnalogico
+    );
+})();
+
+// ********************* CÓDIGO COM ARDUINO FÍSICO ******************
+
+/*
+
 // importa os bibliotecas necessários
 const serialport = require('serialport');
 const express = require('express');
@@ -129,3 +226,5 @@ const servidor = (
         valoresSensorDigital
     );
 })();
+
+*/

@@ -23,7 +23,7 @@
         {
              host: '127.0.0.1',
              user: 'aluno',
-             password: 'sptech',
+             password: 'Sptech#2024',
              database: 'Ecolight',
              port: 3307
          }
@@ -53,7 +53,7 @@
      arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
          console.log(data);
          const valores = data.split(';');
-         const sensorAnalogico = parseFloat(valores[0]);
+         var sensorAnalogico = parseFloat(valores[0]);
          const sensorDigital = parseInt(valores[1]);
 
          // Converter LUX para %

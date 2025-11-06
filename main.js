@@ -70,15 +70,15 @@
              await poolBancoDados.execute(
                  `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico}, 1)`,
              );
-             console.log("valores inseridos no banco: ", sensorAnalogico);
+             console.log(sensorAnalogico);
              await poolBancoDados.execute(
-                 `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 10}, 2)`,
+                 `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 2}, 2)`,
              );
-             console.log("valores inseridos no banco: ", sensorAnalogico + 10);
+             console.log(sensorAnalogico + 10);
              await poolBancoDados.execute(
-                 `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 20}, 3)`,
+                 `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 4}, 3)`,
              );
-             console.log("valores inseridos no banco: ", sensorAnalogico + 20);
+             console.log(sensorAnalogico + 3);
          }
      });
 
@@ -218,15 +218,15 @@ const gerarDadosMockados = async (
         // armazena os valores simulados nos arrays originais
         valoresSensorAnalogico.push(parseFloat(sensorAnalogico));
 
-        console.log(`Leitura gerada → Analógico: ${sensorAnalogico}lux`);
+        console.log(sensorAnalogico);
 
-        // caso o armazenamento no banco esteja habilitado, insere os valores mockados
+        // caso o armazenamento no banco esteja habilitado, insere os valores simulados
         if (HABILITAR_OPERACAO_INSERIR) {
             await poolBancoDados.execute(
                 `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico}, 4)`,
                 
             );
-            console.log("Valores inseridos no banco:", sensorAnalogico);
+            console.log(sensorAnalogico);
         }
 
     }, 1000); // intervalo de geração das leituras simuladas
@@ -273,5 +273,4 @@ const servidor = (
 })(); 
 
 */
-
 

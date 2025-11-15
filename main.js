@@ -57,7 +57,7 @@
          const sensorDigital = parseInt(valores[1]);
 
          // Converter LUX para %
-         sensorAnalogico = (sensorAnalogico * 100 / 2174)
+        //  sensorAnalogico = (sensorAnalogico * 100 / 2174)
 
          // armazena os valores dos sensores nos arrays correspondentes
          valoresSensorAnalogico.push(sensorAnalogico);
@@ -210,8 +210,8 @@ const gerarDadosMockados = async (
 
     // intervalo que gera novos valores a cada 2 segundos simulando leituras reais
     setInterval(async () => {
-        // gera um valor aleatório entre 10% e 40% para simular o sensor LDR35
-        const sensorAnalogico = (Math.random() * 30 + 10).toFixed(2);
+        // gera um valor aleatório entre 100 e 1000 para simular o sensor LDR35
+        const sensorAnalogico = (Math.random() * 900 + 100).toFixed(2);
 
         // gera um valor digital aleatório (0 ou 1)
 

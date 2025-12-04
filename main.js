@@ -21,7 +21,7 @@
      // conexão com o banco de dados MySQL
       let poolBancoDados = mysql.createPool(
         {
-             host: '192.168.15.1',
+             host: '10.18.32.150',
              user: 'ecolight',
              password: 'Urubu#100',
              database: 'Ecolight',
@@ -53,7 +53,7 @@
      arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
          console.log(data);
          const valores = data.split(';');
-         var sensorAnalogico = parseFloat(valores[0]);
+         var sensorAnalogico = Math.floor(valores[0]);
          const sensorDigital = parseInt(valores[1]);
 
          // Converter LUX para %
@@ -70,7 +70,7 @@
              await poolBancoDados.execute(
                  `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico}, 1)`,
              );
-             console.log(sensorAnalogico);
+             /*console.log(sensorAnalogico);
              await poolBancoDados.execute(
                  `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 2}, 2)`,
              );
@@ -78,7 +78,7 @@
              await poolBancoDados.execute(
                  `INSERT INTO regSensor (intensidadeLuz, fkSensor) VALUES (${sensorAnalogico + 4}, 3)`,
              );
-             console.log(sensorAnalogico + 3);
+             console.log(sensorAnalogico + 3);*/
          }
      });
 

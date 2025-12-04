@@ -211,7 +211,7 @@ const gerarDadosMockados = async (
     // intervalo que gera novos valores a cada 2 segundos simulando leituras reais
     setInterval(async () => {
         // gera um valor aleatório entre 100 e 1000 para simular o sensor LDR35
-        const sensorAnalogico = (Math.random() * 900 + 100).toFixed(2);
+        const sensorAnalogico = Math.floor(Math.random() * 200 + 400);
 
         // gera um valor digital aleatório (0 ou 1)
 
@@ -272,5 +272,5 @@ const servidor = (
     );
 })(); 
 
-*/
 
+*/

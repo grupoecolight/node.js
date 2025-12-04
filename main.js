@@ -21,8 +21,8 @@
      // conexão com o banco de dados MySQL
       let poolBancoDados = mysql.createPool(
         {
-             host: '127.0.0.1',
-             user: 'eco',
+             host: '192.168.15.1',
+             user: 'ecolight',
              password: 'Urubu#100',
              database: 'Ecolight',
              port: 3307
@@ -198,8 +198,8 @@ const gerarDadosMockados = async (
     // conexão com o banco de dados MySQL (permite inserção simulada)
     let poolBancoDados = mysql.createPool(
         {
-            host: '127.0.0.1',
-            user: 'eco',
+            host: '192.168.15.1',
+            user: 'ecolight',
             password: 'Urubu#100',
             database: 'Ecolight',
             port: 3307
